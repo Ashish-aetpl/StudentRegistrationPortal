@@ -1,0 +1,32 @@
+[
+  {
+    "id": "REG-1791448253454-3E23",
+    "fullName": "Ashish Sharma",
+    "dob": "2003-08-11",
+    "category": "Senior (Above 15 years)",
+    "schoolName": "Kanpur University",
+    "contactNumber": "7071122145",
+    "parentNames": [
+      "Mr. Sanjay Sharma",
+      "Mr. Rajkumari Sharma"
+    ],
+    "participation": [
+      "Poster Making",
+      "Elocution"
+    ],
+    "registeredAt": "2026-10-08T08:30:53.454Z"
+  },
+  {
+    "id": "REG-1791447494220-2490",
+    "fullName": "Ashish Sharma",
+    "dob": "2006-06-07",
+    "category": "Senior (Above 15 years)",
+    "schoolName": "CSJM University",
+    "contactNumber": "7071122145",
+    "parentNames": [],
+    "participation": [
+      "Poster Making"
+    ],
+    "registeredAt": "2026-10-08T08:18:14.220Z"
+  }
+]

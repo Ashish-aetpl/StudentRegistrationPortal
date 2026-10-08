@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Special Campaign 2026 | National Student Talent Forum</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- React 18, ReactDOM & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #060b17;
+      --bg-card: rgba(15, 23, 42, 0.72);
+      --primary: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+    h1, h2, h3, h4, h5, .brand-logo { font-family: 'Cabinet Grotesk', sans-serif; letter-spacing: -0.02em; }
+    .main-navbar {
+      position: sticky; top: 0; z-index: 1050;
+      background: rgba(6, 11, 23, 0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 0;
+    }
+    .nav-link-custom {
+      color: #cbd5e1 !important; font-size: 14px; font-weight: 600;
+      padding: 8px 18px !important; border-radius: 9999px; text-decoration: none; transition: 0.25s ease;
+    }
+    .nav-link-custom:hover { color: #fff !important; background: rgba(255, 255, 255, 0.08); }
+    .nav-btn-highlight {
+      background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff !important;
+      font-size: 14px; font-weight: 700; padding: 8px 22px !important;
+      border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+    }
+    .pro-card {
+      background: var(--bg-card); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .gradient-title {
+      background: linear-gradient(135deg, #ffffff 20%, #93c5fd 60%, #c4b5fd 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .badge-pill-glow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px;
+      border-radius: 9999px; font-size: 13px; font-weight: 700; text-transform: uppercase;
+      background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #7dd3fc;
+    }
+    .form-label { font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+    .pro-input {
+      background-color: #0b1325 !important; border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #f8fafc !important; border-radius: 14px; padding: 13px 18px; font-size: 15px;
+    }
+    .pro-input:focus { border-color: #38bdf8 !important; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.18) !important; }
+    .choice-card {
+      background: #0b1325; border: 2px solid rgba(255, 255, 255, 0.08); border-radius: 16px;
+      padding: 18px 20px; cursor: pointer; display: flex; align-items: center; gap: 16px; transition: all 0.25s ease;
+    }
+    .choice-card:hover { border-color: rgba(56, 189, 248, 0.4); background: #0f1c34; transform: translateY(-2px); }
+    .choice-card.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.12); box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.25); }
+    .choice-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .choice-card.active .choice-icon { background: #0284c7; }
+    .captcha-container { background: #080f1d; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 16px 20px; }
+    .captcha-badge {
+      background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px dashed #38bdf8; color: #38bdf8;
+      font-family: monospace; font-size: 24px; font-weight: 800; letter-spacing: 6px; padding: 10px 22px; border-radius: 12px;
+    }
+    .btn-primary-gradient {
+      background: linear-gradient(135deg, #0284c7, #6366f1); border: none; color: #ffffff;
+      font-weight: 700; font-size: 16px; padding: 15px 32px; border-radius: 14px; transition: all 0.3s ease;
+    }
+    .btn-primary-gradient:hover { background: linear-gradient(135deg, #0369a1, #4f46e5); transform: translateY(-2px); color: #fff; }
+    .gallery-item { border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); background: #0d172a; transition: all 0.35s ease; position: relative; }
+    .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.3); border-color: rgba(56, 189, 248, 0.4); }
+    .gallery-photo { width: 100%; height: 250px; object-fit: cover; }
+    .tag-badge { position: absolute; top: 14px; left: 14px; background: rgba(7, 13, 25, 0.88); backdrop-filter: blur(10px); padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 700; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .pro-table thead th { background-color: #0b1325 !important; color: #94a3b8 !important; text-transform: uppercase; font-size: 12px; letter-spacing: 0.05em; padding: 14px 18px; border-bottom: 2px solid rgba(255, 255, 255, 0.1); }
+    .pro-table tbody td { background-color: transparent !important; padding: 16px 18px; vertical-align: middle; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const Navbar = () => (
+      <nav className="main-navbar">
+        <div className="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <a href="#home" className="d-flex align-items-center gap-2 text-decoration-none">
+            <span style={{ fontSize: '24px' }}></span>
+            <span className="brand-logo text-light fw-bold fs-5">
+              Special Campaign <span style={{ color: '#38bdf8' }}>2026</span>
+            </span>
+          </a>
+          <div className="d-flex align-items-center gap-2 flex-wrap">
+            <a href="#home" className="nav-link-custom">Overview</a>
+            <a href="#registration" className="nav-link-custom">Registration Form</a>
+            <a href="#gallery" className="nav-link-custom">Photo Gallery</a>
+            <a href="#admin" className="nav-link-custom">Admin Portal</a>
+            <a href="#registration" className="nav-btn-highlight ms-2">Register Now →</a>
+          </div>
+        </div>
+      </nav>
+    );
+
+    const Header = () => (
+      <header className="py-5 text-center position-relative" id="home">
+        <div className="container py-3">
+          <div className="badge-pill-glow mb-4">
+            <span>✨</span> NATIONAL STUDENT TALENT FORUM 2026
+          </div>
+          <h1 className="display-4 fw-bolder gradient-title mb-3">
+            Special Campaign: Creative Expression & Discourse
+          </h1>
+          <p className="lead mx-auto text-secondary mb-4" style={{ maxWidth: '820px', color: '#94a3b8' }}>
+            An esteemed inter-school talent festival designed to celebrate expressive viewpoints,
+            artistic excellence, and communicative brilliance. School scholars are invited to participate
+            in competitive <strong>Poster Making</strong> and <strong>Elocution</strong> categories.
+          </p>
+          <div className="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="#registration" className="btn btn-primary-gradient px-4 py-2">
+              Complete Registration Now →
+            </a>
+            <a href="#gallery" className="btn btn-outline-light rounded-pill px-4 py-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
+              Explore Event Gallery
+            </a>
+          </div>
+        </div>
+      </header>
+    );
+
+    const RegistrationForm = ({ onNewRegistration }) => {
+      const [formData, setFormData] = useState({
+        fullName: '',
+        dob: '',
+        schoolName: '',
+        participation: []
+      });
+      const [captchaInput, setCaptchaInput] = useState('');
+      const [generatedCaptcha, setGeneratedCaptcha] = useState('');
+      const [feedback, setFeedback] = useState({ type: '', message: '' });
+
+      const refreshCaptcha = () => {
+        const charset = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let code = '';
+        for (let i = 0; i < 5; i++) {
+          code += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        setGeneratedCaptcha(code);
+        setCaptchaInput('');
+      };
+
+      useEffect(() => {
+        refreshCaptcha();
+      }, []);
+
+      const toggleEvent = (eventName) => {
+        setFormData(prev => {
+          const exists = prev.participation.includes(eventName);
+          return {
+            ...prev,
+            participation: exists ? prev.participation.filter(i => i !== eventName) : [...prev.participation, eventName]
+          };
+        });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setFeedback({ type: '', message: '' });
+
+        if (!formData.fullName.trim() || !formData.dob || !formData.schoolName.trim()) {
+          setFeedback({
+            type: 'danger',
+            message: 'Please complete all required fields (Full Name, Date of Birth, School Name).'
+          });
+          return;
+        }
+
+        if (formData.participation.length === 0) {
+          setFeedback({
+            type: 'danger',
+            message: 'Please select at least one participation event (Poster Making or Elocution).'
+          });
+          return;
+        }
+
+        if (captchaInput.trim().toUpperCase() !== generatedCaptcha) {
+          setFeedback({
+            type: 'danger',
+            message: 'Security Captcha mismatch. Please verify and enter the correct code.'
+          });
+          refreshCaptcha();
+          return;
+        }
+
+        const newEntry = {
+          id: 'REG-' + Date.now(),
+          ...formData,
+          registeredAt: new Date().toISOString()
+        };
+
+        const stored = JSON.parse(localStorage.getItem('special_campaign_db') || '[]');
+        stored.unshift(newEntry);
+        localStorage.setItem('special_campaign_db', JSON.stringify(stored));
+
+        onNewRegistration(newEntry);
+        setFeedback({
+          type: 'success',
+          message: 'Student registration has been successfully recorded!'
+        });
+
+        setFormData({ fullName: '', dob: '', schoolName: '', participation: [] });
+        refreshCaptcha();
+      };
+
+      return (
+        <section className="container my-5" id="registration" style={{ maxWidth: '880px' }}>
+          <div className="pro-card p-4 p-md-5">
+            <div className="text-center mb-4">
+              <span className="text-uppercase fw-bold text-info" style={{ fontSize: '13px', letterSpacing: '2px' }}>
+                Official Participant Form
+              </span>
+              <h2 className="fw-bold mt-1 mb-2">Student Registration</h2>
+              <p className="text-secondary small">Please fill out all mandatory fields below accurately.</p>
+            </div>
+
+            {feedback.message && (
+              <div className={`alert alert-${feedback.type} rounded-3 py-3 mb-4`}>
+                {feedback.message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="form-label">Student Full Name *</label>
+                <input
+                  type="text"
+                  className="form-control pro-input"
+                  placeholder="e.g. Alexander Mitchell"
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                />
+              </div>
+
+              <div className="row g-3 mb-4">
+                <div className="col-md-5">
+                  <label className="form-label">Date of Birth (DOB) *</label>
+                  <input
+                    type="date"
+                    className="form-control pro-input"
+                    value={formData.dob}
+                    onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                  />
+                </div>
+                <div className="col-md-7">
+                  <label className="form-label">School / Institution Name *</label>
+                  <input
+                    type="text"
+                    className="form-control pro-input"
+                    placeholder="e.g. Cambridge International School"
+                    value={formData.schoolName}
+                    onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label d-block mb-3">
+                  Participation Categories * (Select one or both)
+                </label>
+                <div className="row g-3">
+                  <div className="col-md-6">
+                    <div
+                      className={`choice-card ${formData.participation.includes('Poster Making') ? 'active' : ''}`}
+                      onClick={() => toggleEvent('Poster Making')}
+                    >
+                      <div className="choice-icon">🎨</div>
+                      <div className="flex-grow-1">
+                        <div className="fw-bold text-light">Poster Making</div>
+                        <small className="text-secondary d-block">Visual expression, sketching & theme illustration</small>
+                      </div>
+                      <input
+                        type="checkbox"
+                        className="form-check-input mt-0"
+                        checked={formData.participation.includes('Poster Making')}
+                        onChange={() => {}}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div
+                      className={`choice-card ${formData.participation.includes('Elocution') ? 'active' : ''}`}
+                      onClick={() => toggleEvent('Elocution')}
+                    >
+                      <div className="choice-icon">🎙️</div>
+                      <div className="flex-grow-1">
+                        <div className="fw-bold text-light">Elocution</div>
+                        <small className="text-secondary d-block">Oratory speech, articulate debate & reasoning</small>
+                      </div>
+                      <input
+                        type="checkbox"
+                        className="form-check-input mt-0"
+                        checked={formData.participation.includes('Elocution')}
+                        onChange={() => {}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="captcha-container mb-4">
+                <label className="form-label d-block mb-2">Security Verification (Captcha) *</label>
+                <div className="d-flex flex-wrap align-items-center gap-3">
+                  <div className="captcha-badge">{generatedCaptcha}</div>
+                  <button type="button" className="btn btn-outline-info rounded-pill px-3 py-2 btn-sm" onClick={refreshCaptcha}>
+                    🔄 Refresh Code
+                  </button>
+                  <div className="flex-grow-1">
+                    <input
+                      type="text"
+                      className="form-control pro-input"
+                      placeholder="Type captcha code here"
+                      value={captchaInput}
+                      onChange={(e) => setCaptchaInput(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" className="btn btn-primary-gradient w-100 py-3">
+                Submit Registration 
+              </button>
+            </form>
+          </div>
+        </section>
+      );
+    };
+
+    const AdminPanel = ({ registrations }) => {
+      const [isPanelVisible, setIsPanelVisible] = useState(false);
+      const [isAuthenticated, setIsAuthenticated] = useState(false);
+      const [password, setPassword] = useState('');
+      const [errorMessage, setErrorMessage] = useState('');
+
+      const ADMIN_KEY = 'admin@special2026';
+
+      const handleAdminAuth = (e) => {
+        e.preventDefault();
+        if (password === ADMIN_KEY) {
+          setIsAuthenticated(true);
+          setErrorMessage('');
+        } else {
+          setErrorMessage('Access Denied: Invalid administrator password.');
+        }
+      };
+
+      const handleSignOut = () => {
+        setIsAuthenticated(false);
+        setPassword('');
+        setIsPanelVisible(false);
+      };
+
+      return (
+        <section className="container my-5" id="admin" style={{ maxWidth: '980px' }}>
+          <div className="d-flex justify-content-end mb-3">
+            <button
+              className="btn btn-outline-info rounded-pill px-4 py-2 fw-semibold"
+              onClick={() => setIsPanelVisible(!isPanelVisible)}
+            >
+              {isPanelVisible ? '✕ Close Administrator Console' : '🔒 Administrator Portal'}
+            </button>
+          </div>
+
+          {isPanelVisible && (
+            <div className="pro-card p-4 p-md-5">
+              {!isAuthenticated ? (
+                <div style={{ maxWidth: '420px', margin: '0 auto', textAlign: 'center' }}>
+                  <div style={{ width: '64px', height: '64px', background: 'rgba(56, 189, 248, 0.15)', borderRadius: '16px', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>
+                    🔐
+                  </div>
+                  <h3 className="fw-bold mb-2">Administrator Access</h3>
+                  <p className="text-secondary small mb-4">
+                    Enter your administrative credentials to inspect and manage candidate registrations.
+                  </p>
+
+                  {errorMessage && (
+                    <div className="alert alert-danger py-2 small mb-3">{errorMessage}</div>
+                  )}
+
+                  <form onSubmit={handleAdminAuth}>
+                    <input
+                      type="password"
+                      className="form-control pro-input mb-3 text-center"
+                      placeholder="Enter Administrator Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit" className="btn btn-primary-gradient w-100 py-2">
+                      Authenticate & View Submissions
+                    </button>
+                  </form>
+                  <small className="text-muted d-block mt-3">
+                    Default Access Password: <code>admin@special2026</code>
+                  </small>
+                </div>
+              ) : (
+                <div>
+                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <div>
+                      <h3 className="fw-bold mb-1">Enrolled Candidates Registry</h3>
+                      <p className="text-secondary small mb-0">Confidential submissions synchronized with backend storage.</p>
+                    </div>
+                    <div className="d-flex align-items-center gap-3">
+                      <span className="badge bg-primary px-3 py-2 rounded-pill">
+                        Total Enrolled: {registrations.length}
+                      </span>
+                      <button className="btn btn-outline-danger btn-sm rounded-pill px-3" onClick={handleSignOut}>
+                        Lock & Logout
+                      </button>
+                    </div>
+                  </div>
+
+                  {registrations.length === 0 ? (
+                    <div className="text-center py-5 text-secondary">
+                      No submissions have been registered yet.
+                    </div>
+                  ) : (
+                    <div className="table-responsive">
+                      <table className="table pro-table table-dark table-hover mb-0">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th>DOB</th>
+                            <th>School / Academy</th>
+                            <th>Selected Events</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {registrations.map((item, index) => (
+                            <tr key={item.id || index}>
+                              <td>{index + 1}</td>
+                              <td className="fw-bold text-info">{item.fullName}</td>
+                              <td>{item.dob}</td>
+                              <td>{item.schoolName}</td>
+                              <td>
+                                {item.participation?.map((p, idx) => (
+                                  <span key={idx} className="badge bg-secondary me-1">{p}</span>
+                                ))}
+                              </td>
+                              <td><span className="badge bg-success bg-opacity-75">Verified</span></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+      );
+    };
+
+    const PhotoGallery = () => {
+      const photos = [
+        { id: 1, title: 'Poster Illustration Studio', category: 'Poster Making', desc: 'Students illustrating sustainable environmental visions and energy designs.', img: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80' },
+        { id: 2, title: 'Keynote Elocution Stage', category: 'Elocution', desc: 'Participants articulating profound perspectives during the speech rounds.', img: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&auto=format&fit=crop&q=80' },
+        { id: 3, title: 'Visual Arts Competition', category: 'Poster Making', desc: 'Focused candidates engaging in high-precision conceptual poster creation.', img: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=600&auto=format&fit=crop&q=80' },
+        { id: 4, title: 'Public Debate & Oratory', category: 'Elocution', desc: 'Confident school champions showcasing rhetorical debate excellence.', img: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop&q=80' },
+        { id: 5, title: 'Jury Art Evaluation', category: 'Exhibition', desc: 'Esteemed jury panel examining thematic execution and artwork depth.', img: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&auto=format&fit=crop&q=80' },
+        { id: 6, title: 'Grand Awards Felicitation', category: 'Ceremony', desc: 'Conferring honors and distinction awards upon outstanding contestants.', img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80' }
+      ];
+
+      return (
+        <section className="container my-5 py-4" id="gallery">
+          <div className="text-center mb-5">
+            <span className="text-uppercase fw-bold text-info" style={{ fontSize: '13px', letterSpacing: '2px' }}>
+              Visual Showcase
+            </span>
+            <h2 className="display-5 fw-bold gradient-title mt-1 mb-2">Campaign Photo Gallery</h2>
+            <p className="text-secondary mx-auto" style={{ maxWidth: '680px', color: '#94a3b8' }}>
+              Explore key milestones, inspiring podium speeches, and imaginative poster designs from
+              past editions of the Special Campaign.
+            </p>
+          </div>
+
+          <div className="row g-4">
+            {photos.map(item => (
+              <div className="col-md-6 col-lg-4" key={item.id}>
+                <div className="gallery-item">
+                  <span className="tag-badge">{item.category}</span>
+                  <img src={item.img} alt={item.title} className="gallery-photo" />
+                  <div className="p-4">
+                    <h5 className="fw-bold mb-1 text-light">{item.title}</h5>
+                    <p className="small text-secondary mb-0">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="mt-5 py-4 text-center border-top border-secondary border-opacity-25" style={{ background: '#050913' }}>
+        <div className="container">
+          <h5 className="fw-bold text-light mb-1">Special Campaign Initiative 2026</h5>
+          <p className="small text-secondary mb-3">
+            Fostering Creativity, Academic Innovation, and Articulate Expression Across Schools
+          </p>
+          <div className="d-flex justify-content-center gap-3 mb-3 small text-secondary">
+            <a href="#home" className="text-decoration-none text-secondary">Overview</a>
+            <span>•</span>
+            <a href="#registration" className="text-decoration-none text-secondary">Registration</a>
+            <span>•</span>
+            <a href="#gallery" className="text-decoration-none text-secondary">Gallery</a>
+            <span>•</span>
+            <a href="#admin" className="text-decoration-none text-secondary">Admin Console</a>
+          </div>
+          <p className="small text-muted mb-0">
+            © {new Date().getFullYear()} Special Campaign Council. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    );
+
+    function App() {
+      const [registrations, setRegistrations] = useState([]);
+
+      useEffect(() => {
+        const stored = JSON.parse(localStorage.getItem('special_campaign_db') || '[]');
+        setRegistrations(stored);
+      }, []);
+
+      const handleNewRegistration = (entry) => {
+        setRegistrations(prev => [entry, ...prev]);
+      };
+
+      return (
+        <div>
+          <Navbar />
+          <Header />
+          <RegistrationForm onNewRegistration={handleNewRegistration} />
+          <AdminPanel registrations={registrations} />
+          <PhotoGallery />
+          <Footer />
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
